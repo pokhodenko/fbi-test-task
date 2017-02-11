@@ -1,0 +1,14 @@
+{% extends 'layout.tpl.twig' %}
+
+{% block content %}
+    <h1>Employee creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    <div class="btn-group">
+        <input class="btn btn-primary" type="submit" value="Create" />
+        <a class="btn btn-info" href="{{ path('employee_index') }}">Back to the list</a>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

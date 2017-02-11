@@ -1,0 +1,39 @@
+{% extends 'layout.tpl.twig' %}
+
+{% block content %}
+    <h1>Employees list</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Gender</th>
+            <th>Dateofbirth</th>
+            <th>Comment</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employee in employees %}
+            <tr>
+                <td>{{ employee.firstName }}</td>
+                <td>{{ employee.lastName }}</td>
+                <td>{{ employee.gender }}</td>
+                <td>{% if employee.dateOfBirth %}{{ employee.dateOfBirth|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ employee.comment }}</td>
+                <td>{{ employee.salary }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-info" href="{{ path('employee_show', { 'id': employee.id }) }}">Show</a>
+                        <a class="btn btn-info" href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-info" href="{{ path('employee_new') }}">Create a new employee</a>
+{% endblock %}
