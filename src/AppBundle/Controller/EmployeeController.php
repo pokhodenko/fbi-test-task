@@ -3,9 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Employee;
+use AppBundle\Service\EmployeeManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Employee controller.
@@ -22,12 +24,8 @@ class EmployeeController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $employees = $em->getRepository('AppBundle:Employee')->findAll();
-
         return $this->render('employee/index.html.twig', array(
-            'employees' => $employees,
+            'employees' => $this->getEmployeeManager()->findAll(),
         ));
     }
 
@@ -44,9 +42,7 @@ class EmployeeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($employee);
-            $em->flush($employee);
+            $this->getEmployeeManager()->save($employee);
 
             return $this->redirectToRoute('employee_show', array('id' => $employee->getId()));
         }
@@ -65,6 +61,10 @@ class EmployeeController extends Controller
      */
     public function showAction(Employee $employee)
     {
+        if ($employee->isRemoved()) {
+            throw $this->createNotFoundException();
+        }
+
         $deleteForm = $this->createDeleteForm($employee);
 
         return $this->render('employee/show.html.twig', array(
@@ -81,6 +81,10 @@ class EmployeeController extends Controller
      */
     public function editAction(Request $request, Employee $employee)
     {
+        if ($employee->isRemoved()) {
+            throw $this->createNotFoundException();
+        }
+
         $deleteForm = $this->createDeleteForm($employee);
         $editForm = $this->createForm('AppBundle\Form\EmployeeType', $employee);
         $editForm->handleRequest($request);
@@ -110,10 +114,7 @@ class EmployeeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($employee);
-            $em->flush($employee);
+            $this->getEmployeeManager()->remove($employee);
         }
 
         return $this->redirectToRoute('employee_index');
@@ -133,5 +134,12 @@ class EmployeeController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * @return EmployeeManager
+     */
+    private function getEmployeeManager() {
+        return $this->get('app.employee.manager');
     }
 }

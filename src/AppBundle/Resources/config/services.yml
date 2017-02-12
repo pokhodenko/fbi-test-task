@@ -1,0 +1,4 @@
+services:
+    app.employee.manager:
+        class: AppBundle\Service\EmployeeManager
+        arguments: ['@doctrine.orm.entity_manager']

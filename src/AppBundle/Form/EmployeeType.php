@@ -53,7 +53,8 @@ class EmployeeType extends AbstractType
             ])
             ->add('comment')
             ->add('salary', MoneyType::class)
-            ->add('active');
+            ->add('active')
+        ;
 
     }
 

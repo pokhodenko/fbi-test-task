@@ -26,14 +26,14 @@ class Employee
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=255)
+     * @ORM\Column(name="first_name", type="string", length=255)
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=255)
+     * @ORM\Column(name="last_name", type="string", length=255)
      */
     private $lastName;
 
@@ -47,7 +47,7 @@ class Employee
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateOfBirth", type="datetime")
+     * @ORM\Column(name="date_of_birth", type="datetime")
      */
     private $dateOfBirth;
 
@@ -87,6 +87,14 @@ class Employee
      * @ORM\Column(name="is_active", type="boolean", options={"default": 1})
      */
     private $active = true;
+
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_removed", type="boolean", options={"default": 0})
+     */
+    private $removed = false;
 
     public function __construct()
     {
@@ -346,6 +354,25 @@ class Employee
     public function setActive($active)
     {
         $this->active = $active;
+    }
+
+    /**
+     * Checks if user is removed.
+     *
+     * @return bool
+     */
+    public function isRemoved() {
+        return $this->removed;
+    }
+
+    /**
+     * Set removed
+     *
+     * @param bool $removed
+     */
+    public function setRemoved($removed)
+    {
+        $this->removed = $removed;
     }
 }
 
