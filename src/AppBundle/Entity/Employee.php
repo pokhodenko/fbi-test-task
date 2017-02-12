@@ -71,6 +71,13 @@ class Employee
      */
     private $salary;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_active", type="boolean", options={"default": 1})
+     */
+    private $active = true;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -269,6 +276,26 @@ class Employee
     public function getSalary()
     {
         return $this->salary;
+    }
+
+    /**
+     * Check if user is active.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set active
+     *
+     * @param bool $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
     }
 }
 
