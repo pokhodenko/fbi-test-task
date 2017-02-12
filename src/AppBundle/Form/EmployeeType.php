@@ -2,8 +2,10 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Employee;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,6 +31,16 @@ class EmployeeType extends AbstractType
             ->add('dateOfBirth', DateType::class, [
                 'years' => range(date('Y') - 18, date('Y') - 65)
             ])
+            ->add('addresses', CollectionType::class, [
+                'entry_type' => AddressType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'by_reference' => false,
+                'entry_options' => [
+                    'label' => false
+                ],
+            ])
             ->add('comment')
             ->add('salary', MoneyType::class);
     }
@@ -39,7 +51,7 @@ class EmployeeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Employee'
+            'data_class' => Employee::class,
         ));
     }
 

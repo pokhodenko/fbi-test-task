@@ -12,3 +12,8 @@
 
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'employee/collection.js.tpl.twig'  %}
+{% endblock %}

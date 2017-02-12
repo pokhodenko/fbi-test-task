@@ -1,0 +1,43 @@
+<script>
+    jQuery(document).ready(function() {
+        $('#appbundle_employee_addresses').each(function(index) {
+            var container = $(this);
+            var prototype = container.data('prototype');
+
+            var addButton = $('<a class="btn btn-info" href="#">Add more</a>');
+
+            addButton.click(function(e) {
+                e.preventDefault();
+                var newField = $(prototype.replace(/__name__/g, getCount()));
+
+                container.append(addDeleteButton(newField));
+            });
+
+            function getCount() {
+                return container.children('.form-group').length;
+            }
+
+            function addDeleteButton(element) {
+                var button = $('<span class="input-group-addon">x</span>').click(function() {
+                    withButton.remove();
+                });
+                var withButton = element
+                        .find('.form-group')
+                        .addClass('input-group')
+                        .append(button);
+
+                return withButton;
+            }
+
+            container.after(addButton);
+
+            container.find('.form-group').each(function() {
+                addDeleteButton($(this));
+            });
+
+            if (getCount() === 0) {
+                addButton.trigger('click');
+            }
+        });
+    });
+</script>

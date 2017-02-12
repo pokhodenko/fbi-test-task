@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,6 +51,13 @@ class Employee
     private $dateOfBirth;
 
     /**
+     * @var Address[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Address", mappedBy="employee", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $addresses;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="comment", type="text", nullable=true)
@@ -62,6 +70,11 @@ class Employee
      * @ORM\Column(name="salary", type="decimal", precision=10, scale=2)
      */
     private $salary;
+
+    public function __construct()
+    {
+        $this->addresses = new ArrayCollection();
+    }
 
 
     /**
@@ -168,6 +181,46 @@ class Employee
     public function getDateOfBirth()
     {
         return $this->dateOfBirth;
+    }
+
+    /**
+     * Get addresses
+     *
+     * @return Address[]|ArrayCollection
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
+    }
+
+    /**
+     * Add address
+     *
+     * @param Address $address
+     *
+     * @return Employee
+     */
+    public function addAddress(Address $address)
+    {
+        $address->setEmployee($this);
+
+        $this->addresses->add($address);
+
+        return $this;
+    }
+
+    /**
+     * Remove address
+     *
+     * @param Address $address
+     *
+     * @return Employee
+     */
+    public function removeAddress(Address $address)
+    {
+        $this->addresses->removeElement($address);
+
+        return $this;
     }
 
     /**
