@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Employee
@@ -51,6 +52,15 @@ class Employee
     private $dateOfBirth;
 
     /**
+     * @var Phone[]|ArrayCollection
+     *
+     * @Assert\Valid()
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Phone", mappedBy="employee", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $phones;
+
+    /**
      * @var Address[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Address", mappedBy="employee", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -80,6 +90,7 @@ class Employee
 
     public function __construct()
     {
+        $this->phones = new ArrayCollection();
         $this->addresses = new ArrayCollection();
     }
 
@@ -188,6 +199,45 @@ class Employee
     public function getDateOfBirth()
     {
         return $this->dateOfBirth;
+    }
+
+    /**
+     * Get phones
+     *
+     * @return Phone[]|ArrayCollection
+     */
+    public function getPhones()
+    {
+        return $this->phones;
+    }
+
+    /**
+     * Add phone
+     *
+     * @param Phone $phone
+     *
+     * @return Employee
+     */
+    public function addPhone($phone)
+    {
+        $phone->setEmployee($this);
+        $this->phones->add($phone);
+
+        return $this;
+    }
+
+    /**
+     * Remove phone
+     *
+     * @param Phone $phone
+     *
+     * @return Employee
+     */
+    public function removePhone($phone)
+    {
+        $this->phones->removeElement($phone);
+
+        return $this;
     }
 
     /**

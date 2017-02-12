@@ -10,6 +10,8 @@
             <th>Last name</th>
             <th>Gender</th>
             <th>Date of birth</th>
+            <th>Address</th>
+            <th>Phone</th>
             <th>Comment</th>
             <th>Salary</th>
             <th>Active</th>
@@ -23,6 +25,20 @@
                 <td>{{ employee.lastName }}</td>
                 <td>{{ employee.gender }}</td>
                 <td>{% if employee.dateOfBirth %}{{ employee.dateOfBirth|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        {% for address in employee.addresses %}
+                            <li>{{ address.address }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for phone in employee.phones %}
+                            <li>{{ phone.phone }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td>{{ employee.comment }}</td>
                 <td>{{ employee.salary }}</td>
                 <td>{{ employee.active ? 'Yes' : 'No' }}</td>

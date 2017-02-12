@@ -26,6 +26,26 @@
                 <td>{% if employee.dateOfBirth %}{{ employee.dateOfBirth|date('Y-m-d') }}{% endif %}</td>
             </tr>
             <tr>
+                <th>Address</th>
+                <td>
+                    <ul>
+                        {% for address in employee.addresses %}
+                            <li>{{ address.address }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>
+                    <ul>
+                        {% for phone in employee.phones %}
+                            <li>{{ phone.phone }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
                 <th>Comment</th>
                 <td>{{ employee.comment }}</td>
             </tr>

@@ -41,6 +41,16 @@ class EmployeeType extends AbstractType
                     'label' => false
                 ],
             ])
+            ->add('phones', CollectionType::class, [
+                'entry_type' => PhoneType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'by_reference' => false,
+                'entry_options' => [
+                    'label' => false
+                ],
+            ])
             ->add('comment')
             ->add('salary', MoneyType::class)
             ->add('active');
