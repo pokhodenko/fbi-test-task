@@ -6,12 +6,13 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
+            <th>First name</th>
+            <th>Last name</th>
             <th>Gender</th>
-            <th>Dateofbirth</th>
+            <th>Date of birth</th>
             <th>Comment</th>
             <th>Salary</th>
+            <th>Active</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -24,6 +25,7 @@
                 <td>{% if employee.dateOfBirth %}{{ employee.dateOfBirth|date('Y-m-d') }}{% endif %}</td>
                 <td>{{ employee.comment }}</td>
                 <td>{{ employee.salary }}</td>
+                <td>{{ employee.active ? 'Yes' : 'No' }}</td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-info" href="{{ path('employee_show', { 'id': employee.id }) }}">Show</a>

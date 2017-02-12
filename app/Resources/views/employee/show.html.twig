@@ -10,11 +10,11 @@
                 <td>{{ employee.id }}</td>
             </tr>
             <tr>
-                <th>Firstname</th>
+                <th>First name</th>
                 <td>{{ employee.firstName }}</td>
             </tr>
             <tr>
-                <th>Lastname</th>
+                <th>Last name</th>
                 <td>{{ employee.lastName }}</td>
             </tr>
             <tr>
@@ -22,7 +22,7 @@
                 <td>{{ employee.gender }}</td>
             </tr>
             <tr>
-                <th>Dateofbirth</th>
+                <th>Date of birth</th>
                 <td>{% if employee.dateOfBirth %}{{ employee.dateOfBirth|date('Y-m-d') }}{% endif %}</td>
             </tr>
             <tr>
@@ -32,6 +32,10 @@
             <tr>
                 <th>Salary</th>
                 <td>{{ employee.salary }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ employee.active ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>
