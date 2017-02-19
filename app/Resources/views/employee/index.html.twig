@@ -3,55 +3,67 @@
 {% block content %}
     <h1>Employees list</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Gender</th>
-            <th>Date of birth</th>
-            <th>Address</th>
-            <th>Phone</th>
-            <th>Comment</th>
-            <th>Salary</th>
-            <th>Active</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for employee in employees %}
+    {% if employees is not empty %}
+        <table class="table">
+            <thead>
             <tr>
-                <td>{{ employee.firstName }}</td>
-                <td>{{ employee.lastName }}</td>
-                <td>{{ employee.gender }}</td>
-                <td>{% if employee.dateOfBirth %}{{ employee.dateOfBirth|date('Y-m-d') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        {% for address in employee.addresses %}
-                            <li>{{ address.address }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {% for phone in employee.phones %}
-                            <li>{{ phone.phone }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-                <td>{{ employee.comment }}</td>
-                <td>{{ employee.salary }}</td>
-                <td>{{ employee.active ? 'Yes' : 'No' }}</td>
-                <td>
-                    <div class="btn-group">
-                        <a class="btn btn-info" href="{{ path('employee_show', { 'id': employee.id }) }}">Show</a>
-                        <a class="btn btn-info" href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit</a>
-                    </div>
-                </td>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Gender</th>
+                <th>Date of birth</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Comment</th>
+                <th>Salary</th>
+                <th>Active</th>
+                <th>Actions</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.firstName }}</td>
+                    <td>{{ employee.lastName }}</td>
+                    <td>{{ employee.gender }}</td>
+                    <td>{% if employee.dateOfBirth %}{{ employee.dateOfBirth|date('Y-m-d') }}{% endif %}</td>
+                    <td>
+                        <ul>
+                            {% for address in employee.addresses %}
+                                <li>{{ address.address }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for phone in employee.phones %}
+                                <li>{{ phone.phone }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ employee.comment }}</td>
+                    <td>{{ employee.salary }}</td>
+                    <td>{{ employee.active ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <div class="btn-group">
+                            {% if is_granted('ROLE_WORKER') %}
+                                <a class="btn btn-info"
+                                   href="{{ path('employee_show', { 'id': employee.id }) }}">Show</a>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-info"
+                                   href="{{ path('employee_edit', { 'id': employee.id }) }}">Edit</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div>No employees yet.</div>
+    {% endif %}
 
-    <a class="btn btn-info" href="{{ path('employee_new') }}">Create a new employee</a>
+    {% if is_granted('ROLE_MANAGER') %}
+        <a class="btn btn-info" href="{{ path('employee_new') }}">Create a new employee</a>
+    {% endif %}
 {% endblock %}

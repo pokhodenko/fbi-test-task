@@ -1,0 +1,18 @@
+{% extends 'layout.tpl.twig' %}
+
+{% block content %}
+    <h1>Page you are requesting requires authentication</h1>
+    {% if error is defined and error %}
+        <span>{{ error }}</span>
+    {% endif %}
+
+    <p>You can login using following providers:</p>
+    <ul>
+        {% for owner in hwi_oauth_resource_owners() %}
+            <li>
+                <a href="{{ hwi_oauth_login_url(owner) }}">{{ owner | trans({}, 'HWIOAuthBundle') }}</a> <br />
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

@@ -3,6 +3,13 @@
 {% block body %}
   <div class="container">
       <div class="row">
+          <div class="col-sm-12">
+              {% if is_granted("ROLE_USER") %}
+                  Hi, {{ app.user.firstName }}! Here is <a href="{{ path('logout') }}">logout</a> link if site is too boring.
+              {% endif %}
+          </div>
+      </div>
+      <div class="row">
           <div class="col-sm-12" >
               {% block content %}
               {% endblock %}

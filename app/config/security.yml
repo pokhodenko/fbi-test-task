@@ -2,10 +2,16 @@
 # http://symfony.com/doc/current/security.html
 security:
 
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    role_hierarchy:
+       ROLE_WORKER: ROLE_USER
+       ROLE_MANAGER: ROLE_WORKER
+       ROLE_ADMIN: ROLE_MANAGER
+    encoders:
+        FBI\UserBundle\Entity\User: md5
+
     providers:
-        in_memory:
-            memory: ~
+        db_provider:
+            id: fbi.oauth.user.provider
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -13,12 +19,21 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        secured_area:
             anonymous: ~
-            # activate different ways to authenticate
+            oauth:
+                resource_owners:
+                    facebook:  "/login/check-facebook"
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+                login_path:        /oauthlogin
+                use_forward:       false
+                failure_path:      /oauthlogin
 
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+                oauth_user_provider:
+                    service: fbi.oauth.user.provider
+            logout:
+                path: /logout
+                target: /
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

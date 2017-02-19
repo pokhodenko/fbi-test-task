@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Employee
  *
- * @ORM\Table(name="employee")
+ * @ORM\Table(name="employee", indexes={@ORM\Index(name="is_removed", columns={"is_removed"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EmployeeRepository")
  */
 class Employee
